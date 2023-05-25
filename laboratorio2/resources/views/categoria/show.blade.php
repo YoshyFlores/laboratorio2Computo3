@@ -7,14 +7,15 @@
 @section('content')
     <section class="content container-fluid">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-3">
                 <div class="card">
-                    <div class="card-header">
-                        <div class="float-left">
+                    <div class="card-header" style="background-color:lightblue;">
+                        <div class="float-right">
                             <span class="card-title">{{ __('Show') }} Categoria</span>
                         </div>
+                        <br/>
                         <div class="float-right">
-                            <a class="btn btn-primary" href="{{ route('categorias.index') }}"> {{ __('Back') }}</a>
+                            <a class="btn btn-primary btn-sm float-right"  data-placement="left" href="{{ route('categorias.index') }}"> {{ __('Back') }}</a>
                         </div>
                     </div>
 
@@ -35,3 +36,10 @@
         </div>
     </section>
 @endsection
+
+<style>
+    div {
+    top: 5%;
+    left: 157%;}
+
+</style>

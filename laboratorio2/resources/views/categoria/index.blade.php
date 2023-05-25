@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="card" >
-                    <div class="card-header" style ="background-color:#C6EAE9">
+                    <div class="card-header" style="background-color:lightblue;">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
