@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $id
  * @property $nombreCategoria
  * @property $descripcion
- * @property $created_at
+ * @property $created_at 
  * @property $updated_at
  *
  * @package App
@@ -33,6 +33,9 @@ class Categoria extends Model
      */
     protected $fillable = ['nombreCategoria','descripcion'];
 
-
+      //indica que tiene mas de una tarea
+    public function tareas(){
+        return $this->hasMany(Tarea::class);
+    }
 
 }

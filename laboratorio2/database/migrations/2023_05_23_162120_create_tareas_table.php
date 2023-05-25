@@ -15,6 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('descripcion');
+            $table->date('fechaVencimiento');
+            $table->unsignedBigInteger('categoria_id');
+
+            //clave foranea
+            $table->foreign('categoria_id')->references('id')->on('categorias');
 
 
 
