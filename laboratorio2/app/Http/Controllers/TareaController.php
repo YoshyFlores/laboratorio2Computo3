@@ -19,14 +19,31 @@ class TareaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tareas = Tarea::paginate();
-        $filtroCompletado = request()->input('filtroCompletado', '');
-
-        return view('tarea.index', compact('tareas', 'filtroCompletado'))
-            ->with('i', (request()->input('page', 1) - 1) * $tareas->perPage());
+        $filtroCompletado = $request->input('filtroCompletado');
+        $filtroCategoria = $request->input('filtroCategoria');
+    
+        $tareas = Tarea::query();
+    
+        if (!is_null($filtroCompletado)) {
+            $tareas->where('completado', $filtroCompletado);
+        }
+    
+        if (!is_null($filtroCategoria)) {
+            $tareas->whereHas('categoria', function ($query) use ($filtroCategoria) {
+                $query->where('id', $filtroCategoria);
+            });
+        }
+    
+        $tareas = $tareas->paginate();
+        $categorias = Categoria::all(); // Obtener todas las categorías
+    
+        return view('tarea.index', compact('tareas', 'filtroCompletado', 'categorias', 'filtroCategoria'))
+            ->with('i', ($request->input('page', 1) - 1) * $tareas->perPage());
     }
+    
+    
 
     /**
      * Show the form for creating a new resource.

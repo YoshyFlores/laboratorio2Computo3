@@ -5,28 +5,50 @@
 @endsection
 
 @section('content')
-    
-    <div class="col-sm-4 d-flex align-items-center justify-content-center">
-        <form action="{{ route('tareas.index') }}" method="POST">
-            @csrf
-            <div class="form-group text-center">
-                <label for="filtroCompletado">Filtrar según completada/incompleta</label>
-                <select id="filtroCompletado" name="filtroCompletado" class="form-control">
-                    <option value="">Todos</option>
-                    <option value="1" {{ old('filtroCompletado') == '1' ? 'selected' : '' }}>
-                        Completadas
-                    </option>
-                    <option value="0" {{ old('filtroCompletado') == '0' ? 'selected' : '' }}>
-                        Incompletas
-                    </option>
-                </select>
+
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-sm-3">
+                <form action="{{ route('tareas.index') }}" method="POST">
+                    @csrf
+                    <div class="form-group text-center">
+                        <label for="filtroCategoria">Filtrar por categoría:</label>
+                        <select id="filtroCategoria" name="filtroCategoria" class="form-control">
+                            <option value="">Todas</option>
+                            @foreach ($categorias as $categoria)
+                                <option value="{{ $categoria->id }}" {{ old('filtroCategoria') == $categoria->id ? 'selected' : '' }}>
+                                    {{ $categoria->nombreCategoria }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-2"></div>
+                    <button type="submit" class="btn btn-primary">Filtrar</button>
+                </form>
             </div>
-            <div class="mb-2"></div>
-            <button type="submit" class="btn btn-primary">Filtrar</button>
-        </form>
+
+            <div class="col-sm-3">
+                <form action="{{ route('tareas.index') }}" method="POST">
+                    @csrf
+                    <div class="form-group text-center">
+                        <label for="filtroCompletado">Filtrar según completada/incompleta</label>
+                        <select id="filtroCompletado" name="filtroCompletado" class="form-control">
+                            <option value="">Todos</option>
+                            <option value="1" {{ old('filtroCompletado') == '1' ? 'selected' : '' }}>
+                                Completadas
+                            </option>
+                            <option value="0" {{ old('filtroCompletado') == '0' ? 'selected' : '' }}>
+                                Incompletas
+                            </option>
+                        </select>
+                    </div>
+                    <div class="mb-2"></div>
+                    <button type="submit" class="btn btn-primary">Filtrar</button>
+                </form>
+            </div>
+        </div>
     </div>
-
-
 
 
     <div class="container-fluid">
@@ -70,7 +92,8 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($tareas as $tarea)
-                                        @if (old('filtroCompletado') === null || $tarea->completado == old('filtroCompletado'))
+                                        @if ((old('filtroCompletado') === null || $tarea->completado == old('filtroCompletado')) &&
+                                            (old('filtroCategoria') === null || $tarea->categoria->id == old('filtroCategoria')))
                                             <tr>
                                                 <td>{{ ++$i }}</td>
                                                 <td>{{ $tarea->nombre }}</td>
