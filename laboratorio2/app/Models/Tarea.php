@@ -23,8 +23,8 @@ class Tarea extends Model
 {
     
     static $rules = [
-		'nombre' => 'required',
-		'descripcion' => 'required',
+		'nombre' => 'required|min:3',
+		'descripcion' => 'required|min:10',
 		'fechaVencimiento' => 'required',
 		'categoria_id' => 'required',
     ];
@@ -36,7 +36,7 @@ class Tarea extends Model
      *
      * @var array
      */
-    protected $fillable = ['nombre','descripcion','fechaVencimiento','categoria_id'];
+    protected $fillable = ['nombre','descripcion','fechaVencimiento','completado','categoria_id'];
 
 
     /**

@@ -22,8 +22,9 @@ class TareaController extends Controller
     public function index()
     {
         $tareas = Tarea::paginate();
+        $filtroCompletado = request()->input('filtroCompletado', '');
 
-        return view('tarea.index', compact('tareas'))
+        return view('tarea.index', compact('tareas', 'filtroCompletado'))
             ->with('i', (request()->input('page', 1) - 1) * $tareas->perPage());
     }
 
@@ -77,8 +78,8 @@ class TareaController extends Controller
     public function edit($id)
     {
         $tarea = Tarea::find($id);
-
-        return view('tarea.edit', compact('tarea'));
+        $categorias = Categoria::all();
+        return view('tarea.edit', compact('tarea', 'categorias'));
     }
 
     /**
@@ -88,15 +89,25 @@ class TareaController extends Controller
      * @param  Tarea $tarea
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Tarea $tarea)
+ 
+     public function update(Request $request, Tarea $tarea)
     {
         request()->validate(Tarea::$rules);
-
-        $tarea->update($request->all());
-
+    
+        $data = $request->all();
+    
+        // Verificar si se marcó el checkbox completado
+        $completado = isset($data['completado']) ? 1 : 0;
+    
+        // Actualizar el campo completado en los datos
+        $data['completado'] = $completado;
+    
+        $tarea->update($data);
+    
         return redirect()->route('tareas.index')
             ->with('success', 'Tarea updated successfully');
     }
+    
 
     /**
      * @param int $id

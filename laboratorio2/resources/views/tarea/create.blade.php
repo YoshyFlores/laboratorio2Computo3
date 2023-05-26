@@ -32,5 +32,7 @@
 <style>
     div {
     top: 5%;
-    left: 157%;}
+    left: 157%;
+    }
+
 </style>

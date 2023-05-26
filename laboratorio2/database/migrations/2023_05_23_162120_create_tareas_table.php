@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('descripcion');
             $table->date('fechaVencimiento');
+            $table->boolean('completado')->default(false);
             $table->unsignedBigInteger('categoria_id');
 
             //clave foranea

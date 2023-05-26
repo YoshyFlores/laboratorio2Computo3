@@ -9,25 +9,35 @@
         <br>
         <div class="form-group">
             {{ Form::label('descripcion') }}
-            {{ Form::textarea('descripcion', $tarea->descripcion, ['class' => 'form-control', 'style' => 'height: 100px' . ($errors->has('descripcion') ? ' is-invalid' : ''), 'placeholder' => 'Descripción']) }}
+            {{ Form::textarea('descripcion', $tarea->descripcion, ['class' => 'form-control' . ($errors->has('descripcion') ? ' is-invalid' : ''),'style' => 'height: 100px', 'placeholder' => 'Descripción']) }}
+           
             {!! $errors->first('descripcion', '<div class="invalid-feedback">:message</div>') !!}
+       
+       
         </div>
         <br>
 
         <div class="form-group">
             {{ Form::label('fecha de Vencimiento') }}
-            {{ Form::text('fechaVencimiento', $tarea->fechaVencimiento, ['class' => 'form-control' . ($errors->has('fechaVencimiento') ? ' is-invalid' : ''), 'placeholder' => 'Fecha de Vencimiento']) }}
+            {{ Form::date('fechaVencimiento', isset($tarea->fechaVencimiento) ? (is_string($tarea->fechaVencimiento) ? $tarea->fechaVencimiento : $tarea->fechaVencimiento->format('Y-m-d')) : null, ['min' => now()->format('Y-m-d'), 'class' => 'form-control' . ($errors->has('fechaVencimiento') ? ' is-invalid' : '')]) }}
             {!! $errors->first('fechaVencimiento', '<div class="invalid-feedback">:message</div>') !!}
         </div>
+        
         <br>
         <div class="form-group">
             {{ Form::label('categoría') }}
            
-            {{ Form::select('categoria_id', ['' => 'Selecciona una categoría'] + $categorias->pluck('nombreCategoria', 'id')->toArray(), $tarea->categoria_id, ['class' => 'form-select' . ($errors->has('categoria_id') ? ' is-invalid' : ''), 'placeholder' => 'Seleccione una categoría']) }}
-
-
+            {{ Form::select('categoria_id', ['' => 'Selecciona una categoría'] + $categorias->pluck('nombreCategoria', 'id')->toArray(), $tarea->categoria_id, ['class' => 'form-select' . ($errors->has('categoria_id') ? ' is-invalid' : '')]) }}
+            {!! $errors->first('categoria_id', '<div class="invalid-feedback">:message</div>') !!}
     
         </div>
+        <br>
+        @if(Route::currentRouteName() == 'tareas.edit')
+            <div class="form-group">
+                {{ Form::label('completado') }}
+                {{ Form::checkbox('completado', 1, $tarea->completado, ['class' => 'form-check-input']) }}
+            </div>
+        @endif
 
     </div> 
     <br>
