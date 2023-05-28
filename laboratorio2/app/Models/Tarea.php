@@ -47,5 +47,5 @@ class Tarea extends Model
         return $this->hasOne('App\Models\Categoria', 'id', 'categoria_id');
     }
     
-
+    
 }

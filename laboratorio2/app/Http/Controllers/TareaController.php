@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 //usar el modelo categoria para tener acceso a sus ID
 use App\Models\Categoria;
 
+
 /**
  * Class TareaController
  * @package App\Http\Controllers
@@ -23,6 +24,7 @@ class TareaController extends Controller
     {
         $filtroCompletado = $request->input('filtroCompletado');
         $filtroCategoria = $request->input('filtroCategoria');
+        $filtrofecha = Tarea::orderBy('fechaVencimiento','ASC')->get();
     
         $tareas = Tarea::query();
     
@@ -35,15 +37,22 @@ class TareaController extends Controller
                 $query->where('id', $filtroCategoria);
             });
         }
-    
+        
+       
+
         $tareas = $tareas->paginate();
         $categorias = Categoria::all(); // Obtener todas las categorías
     
-        return view('tarea.index', compact('tareas', 'filtroCompletado', 'categorias', 'filtroCategoria'))
+        return view('tarea.index', compact('tareas', 'filtroCompletado', 'categorias', 'filtroCategoria','filtrofecha'))
             ->with('i', ($request->input('page', 1) - 1) * $tareas->perPage());
+        
+        
+        
+            
     }
     
     
+   
 
     /**
      * Show the form for creating a new resource.

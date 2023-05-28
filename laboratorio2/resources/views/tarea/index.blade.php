@@ -58,6 +58,7 @@
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span id="card_title">
+
                                 {{ __('Tareas ordenadas por fecha de vencimiento') }}
                             </span>
 
@@ -91,39 +92,41 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($tareas as $tarea)
-                                        @if ((old('filtroCompletado') === null || $tarea->completado == old('filtroCompletado')) &&
-                                            (old('filtroCategoria') === null || $tarea->categoria->id == old('filtroCategoria')))
-                                            <tr>
-                                                <td>{{ ++$i }}</td>
-                                                <td>{{ $tarea->nombre }}</td>
-                                                <td>{{ $tarea->descripcion }}</td>
-                                                <td>{{ $tarea->fechaVencimiento }}</td>
-                                                <td>{{ $tarea->categoria->nombreCategoria }}</td>
-                                                <td>
-                                                    @if ($tarea->completado == 1)
-                                                        {{ 'Completada' }}
-                                                    @else
-                                                        {{ 'Incompleta' }}
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    <form action="{{ route('tareas.destroy', $tarea->id) }}" method="POST">
-                                                        <a class="btn btn-sm btn-primary" href="{{ route('tareas.show', $tarea->id) }}">
-                                                            <i class="fa fa-fw fa-eye"></i> {{ __('Show') }}
-                                                        </a>
-                                                        <a class="btn btn-sm btn-success" href="{{ route('tareas.edit', $tarea->id) }}">
-                                                            <i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}
-                                                        </a>
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm">
-                                                            <i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}
-                                                        </button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        @endif
+                                    @foreach ($filtrofecha as $tarea)
+                                        
+                                            @if ((old('filtroCompletado') === null || $tarea->completado == old('filtroCompletado')) &&
+                                                (old('filtroCategoria') === null || $tarea->categoria->id == old('filtroCategoria')))
+                                                <tr>
+                                                    <td>{{ ++$i }}</td>
+                                                    <td>{{ $tarea->nombre }}</td>
+                                                    <td>{{ $tarea->descripcion }}</td>
+                                                    <td>{{ $tarea->fechaVencimiento }}</td>
+                                                    <td>{{ $tarea->categoria->nombreCategoria }}</td>
+                                                    <td>
+                                                        @if ($tarea->completado == 1)
+                                                            {{ 'Completada' }}
+                                                        @else
+                                                            {{ 'Incompleta' }}
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <form action="{{ route('tareas.destroy', $tarea->id) }}" method="POST">
+                                                            <a class="btn btn-sm btn-primary" href="{{ route('tareas.show', $tarea->id) }}">
+                                                                <i class="fa fa-fw fa-eye"></i> {{ __('Show') }}
+                                                            </a>
+                                                            <a class="btn btn-sm btn-success" href="{{ route('tareas.edit', $tarea->id) }}">
+                                                                <i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}
+                                                            </a>
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                                <i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                        
                                     @endforeach
                                 </tbody>
                             </table>
